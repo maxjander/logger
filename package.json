@@ -1,6 +1,6 @@
 {
   "name": "@maxjan/logger",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "type": "module",
   "description": "Development logger that sends console output to Loki",
   "main": "dist/index.cjs",

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/maxjander/logger/compare/v0.1.4...v0.1.5) (2025-11-27)
+
+
+### Bug Fixes
+
+* correct exports paths to match actual build output ([d34a48b](https://github.com/maxjander/logger/commit/d34a48bfb1e6acf5ef26dc077ebc0a0e24174dae))
+
 ### [0.1.4](https://github.com/maxjander/logger/compare/v0.1.3...v0.1.4) (2025-11-27)
 
 
