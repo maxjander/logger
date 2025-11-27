@@ -8,6 +8,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment: npm-publish
     permissions:
       contents: read
       id-token: write
@@ -19,8 +20,10 @@ jobs:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
 
+      - run: npm install -g npm@latest
+
       - run: npm ci
 
       - run: npm run build
 
-      - run: npm publish --access public
+      - run: npm publish --access public --provenance
