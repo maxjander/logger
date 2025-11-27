@@ -48,6 +48,14 @@
   ],
   "author": "maxjan",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxjander/logger"
+  },
+  "bugs": {
+    "url": "https://github.com/maxjander/logger/issues"
+  },
+  "homepage": "https://github.com/maxjander/logger#readme",
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
