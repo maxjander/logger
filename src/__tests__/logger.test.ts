@@ -20,8 +20,12 @@ describe("@maxjan/logger", () => {
     mockFetch.mockClear();
 
     // Reset global state
-    (globalThis as any).__maxjanLoggerInitialized = false;
-    (globalThis as any).__maxjanOriginalConsole = undefined;
+    const g = globalThis as typeof globalThis & {
+      __maxjanLoggerInitialized?: boolean;
+      __maxjanOriginalConsole?: typeof console;
+    };
+    g.__maxjanLoggerInitialized = false;
+    g.__maxjanOriginalConsole = undefined;
 
     // Restore original console
     console.log = originalConsole.log;
