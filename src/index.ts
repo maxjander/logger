@@ -3,6 +3,7 @@ export type LoggerConfig = {
   appName: string;
   enabled?: boolean;
   labels?: Record<string, string>;
+  locale?: string;
 };
 
 type LogLevel = "debug" | "info" | "warn" | "error";
@@ -17,6 +18,7 @@ let config: LoggerConfig = {
   lokiUrl: "http://127.0.0.1:3100/loki/api/v1/push",
   appName: "app",
   enabled: true,
+  locale: "sv-SE",
 };
 
 async function sendToLoki(level: LogLevel, args: unknown[]) {
@@ -27,7 +29,7 @@ async function sendToLoki(level: LogLevel, args: unknown[]) {
     .join(" ");
 
   const now = new Date();
-  const localTime = now.toLocaleString("sv-SE");
+  const localTime = now.toLocaleString(config.locale);
 
   try {
     await fetch(config.lokiUrl, {
