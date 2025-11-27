@@ -1,0 +1,37 @@
+{
+  "name": "@maxjan/logger",
+  "version": "0.1.0",
+  "description": "Development logger that sends console output to Loki",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "logger",
+    "loki",
+    "grafana",
+    "development",
+    "console"
+  ],
+  "author": "maxjan",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}
