@@ -7,24 +7,25 @@ In production, console works as normal - no logs are sent anywhere.
 ## Installation
 
 ```bash
-# Link locally
-cd ~/src/dev/@maxjan/logger
-npm link
-
-# In your project
-npm link @maxjan/logger
+npm install @maxjan/logger
 ```
 
 ## Quick Start
 
 ```typescript
+// lib/logger.ts
 import { initLogger } from "@maxjan/logger";
 
 initLogger({
   appName: "my-app",
 });
+```
 
-// That's it! Now all console calls are sent to Loki
+```typescript
+// app/layout.tsx or index.ts - import once at app startup
+import "./lib/logger";
+
+// Now all console calls are sent to Loki
 console.log("Hello");
 console.warn("Warning!");
 console.error("Something failed", { userId: 123 });
@@ -40,6 +41,7 @@ initLogger({
   // Optional
   lokiUrl: "http://127.0.0.1:3100/loki/api/v1/push", // default
   enabled: true, // default, set false to disable
+  locale: "sv-SE", // default, for timestamp formatting
   labels: {
     env: "development",
     version: "1.0.0",
@@ -84,14 +86,14 @@ disableLogger();
 
 ## Supported Console Methods
 
-| Method | Loki Level |
-|--------|------------|
-| `console.log()` | info |
-| `console.info()` | info |
-| `console.warn()` | warn |
-| `console.error()` | error |
-| `console.debug()` | debug |
-| `console.trace()` | debug |
+| Method           | Loki Level |
+| ---------------- | ---------- |
+| `console.log()`   | info       |
+| `console.info()`  | info       |
+| `console.warn()`  | warn       |
+| `console.error()` | error      |
+| `console.debug()` | debug      |
+| `console.trace()` | debug      |
 
 ## Example: Next.js
 
@@ -165,6 +167,7 @@ app.get("/", (req, res) => {
 npm install
 npm run build
 npm run dev     # watch mode
+npm run test    # run tests
 npm run lint    # check linting
 npm run format  # format with prettier
 ```
@@ -192,6 +195,7 @@ npm run release:major     # force major bump
 ```
 
 This will:
+
 - Bump version in package.json
 - Generate/update CHANGELOG.md
 - Create git tag
