@@ -6,6 +6,7 @@ export type LoggerConfig = {
 };
 
 type LogLevel = "debug" | "info" | "warn" | "error";
+type ConsoleMethod = "log" | "info" | "warn" | "error" | "debug" | "trace";
 
 const globalForLogger = globalThis as typeof globalThis & {
   __maxjanLoggerInitialized?: boolean;
@@ -33,18 +34,25 @@ async function sendToLoki(level: LogLevel, args: unknown[]) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        streams: [{
-          stream: {
-            app: config.appName,
-            level,
-            ...config.labels,
+        streams: [
+          {
+            stream: {
+              app: config.appName,
+              level,
+              ...config.labels,
+            },
+            values: [
+              [
+                `${Date.now() * 1000000}`,
+                JSON.stringify({
+                  message,
+                  level,
+                  timestamp: localTime,
+                }),
+              ],
+            ],
           },
-          values: [[`${Date.now() * 1000000}`, JSON.stringify({
-            message,
-            level,
-            timestamp: localTime,
-          })]]
-        }]
+        ],
       }),
     });
   } catch {
@@ -64,14 +72,14 @@ function wrapConsole() {
     warn: "warn",
     error: "error",
     debug: "debug",
-    trace: "debug"
+    trace: "debug",
   };
 
   for (const [method, level] of Object.entries(methods)) {
-    const original = globalForLogger.__maxjanOriginalConsole![method as keyof Console];
+    const original = globalForLogger.__maxjanOriginalConsole![method as ConsoleMethod];
     if (typeof original === "function") {
-      (console as any)[method] = (...args: unknown[]) => {
-        (original as Function).apply(console, args);
+      console[method as ConsoleMethod] = (...args: unknown[]) => {
+        original.apply(console, args);
         sendToLoki(level, args);
       };
     }
@@ -79,13 +87,14 @@ function wrapConsole() {
 }
 
 function unwrapConsole() {
-  if (!globalForLogger.__maxjanLoggerInitialized || !globalForLogger.__maxjanOriginalConsole) return;
+  if (!globalForLogger.__maxjanLoggerInitialized || !globalForLogger.__maxjanOriginalConsole)
+    return;
 
-  const methods = ["log", "info", "warn", "error", "debug", "trace"];
+  const methods: ConsoleMethod[] = ["log", "info", "warn", "error", "debug", "trace"];
   for (const method of methods) {
-    const original = globalForLogger.__maxjanOriginalConsole[method as keyof Console];
+    const original = globalForLogger.__maxjanOriginalConsole[method];
     if (typeof original === "function") {
-      (console as any)[method] = original;
+      console[method] = original;
     }
   }
 

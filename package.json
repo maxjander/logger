@@ -1,6 +1,7 @@
 {
   "name": "@maxjan/logger",
   "version": "0.1.0",
+  "type": "module",
   "description": "Development logger that sends console output to Loki",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -18,7 +19,20 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/",
+    "prepare": "husky",
+    "release": "standard-version",
+    "release:minor": "standard-version --release-as minor",
+    "release:major": "standard-version --release-as major",
     "prepublishOnly": "npm run build"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "keywords": [
     "logger",
@@ -30,7 +44,18 @@
   "author": "maxjan",
   "license": "MIT",
   "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.48.0",
+    "@typescript-eslint/parser": "^8.48.0",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^16.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.7.1",
+    "standard-version": "^9.5.0",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0"
   }
