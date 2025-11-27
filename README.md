@@ -164,8 +164,37 @@ app.get("/", (req, res) => {
 ```bash
 npm install
 npm run build
-npm run dev  # watch mode
+npm run dev     # watch mode
+npm run lint    # check linting
+npm run format  # format with prettier
 ```
+
+### Commit Format
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/):
+
+```bash
+feat: add new feature      # minor version bump
+fix: bug fix               # patch version bump
+feat!: breaking change     # major version bump
+docs: update documentation
+chore: maintenance
+refactor: code refactoring
+perf: performance improvement
+```
+
+### Release
+
+```bash
+npm run release           # auto-bump based on commits
+npm run release:minor     # force minor bump
+npm run release:major     # force major bump
+```
+
+This will:
+- Bump version in package.json
+- Generate/update CHANGELOG.md
+- Create git tag
 
 ## License
 
